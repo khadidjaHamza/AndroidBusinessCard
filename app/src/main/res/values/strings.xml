@@ -1,0 +1,49 @@
+<resources>
+    <string name="app_name">BusinessCard</string>
+
+    <!-- MENU -->
+    <string name="menu_share">Partager</string>
+    <string name="menu_settings">Paramètres</string>
+    <string name="menu_help">Aide</string>
+    <string name="menu_login">Connexion</string>
+    <string name="menu_card">Ma carte</string>
+    <string name="ssmenu_scan">Recevoir</string>
+    <string name="ssmenu_sms">Envoyer</string>
+
+
+    <!-- LOGIN .MainActivity -->
+    <string name="login">AUTHENTIFICATION</string>
+    <string name="connection">CONNEXION</string>
+    <string name="create_account">S\'inscrire</string>
+
+    <!-- REGISTER .RegisterActivity -->
+    <string name="title_register">INSCRIPTION</string>
+    <string name="title_editing">MODIFICATION</string>
+    <string name="name">Prénom</string>
+    <string name="surname">Nom</string>
+    <string name="birth_format">Date de naissance (JJ/MM/AAAA)</string>
+    <string name="birth">Date de naissance</string>
+    <string name="address">Adresse</string>
+    <string name="tel1">Téléphone 1</string>
+    <string name="tel2">Téléphone 2</string>
+    <string name="site">Site web</string>
+    <string name="mail">Email</string>
+    <string name="mail_verification">Email (vérification)</string>
+    <string name="password">Mot de passe</string>
+    <string name="password_verification">Mot de passe (vérification)</string>
+    <string name="selection">Cochez les éléments à afficher sur votre carte de visite :</string>
+
+    <!-- TOAST MESSAGE -->
+    <string name="pbConnection">Veuillez vous connectez ou vous inscrire</string>
+    <string name="pbPassword">Mot de passe : 6 caractères minimum</string>
+    <string name="pbLogin">Couple email / mot de passe incorrect</string>
+    <string name="pbName">Prénom : 2 à 20 caractères</string>
+    <string name="pbSurname">Nom : 2 à 20 caractères</string>
+    <string name="pbAddress">Adresse : 2 à 20 caractères</string>
+    <string name="pbBirth">Date de naissance : format JJ/MM/AAAA</string>
+    <string name="pbTel">Téléphone : 10 chiffres</string>
+    <string name="pbMail">Mail : format xxx@xxx.xx</string>
+    <string name="pbSite">Site web : format xxx.xxx</string>
+    <string name="pbGeolocalisation">Géolocalisation échouée , essayez à nouveau svp.</string>
+
+</resources>
