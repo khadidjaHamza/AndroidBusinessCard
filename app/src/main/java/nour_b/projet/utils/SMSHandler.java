@@ -20,7 +20,7 @@ public class SMSHandler {
         return contactIntent;
     }
 
-    public  static String contactPicked(Intent data, ContentResolver cr) {
+    public static String contactPicked(Intent data, ContentResolver cr) {
         Log.i("ee","contactPicked");
         Cursor cur;
         Intent smsIntent = null;
@@ -60,6 +60,7 @@ public class SMSHandler {
                     ContactsContract.CommonDataKinds.Email.CONTENT_URI, null,
                     ContactsContract.CommonDataKinds.Email.CONTACT_ID + " = ?",
                     new String[] { id }, null);
+
             while (emailCur.moveToNext()) {
                 // This would allow you get several email addresses
                 // if the email addresses were stored in an array

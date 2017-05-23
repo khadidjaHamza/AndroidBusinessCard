@@ -46,7 +46,7 @@ public class DataUserHandler {
     }
 
     public static boolean registerOk(boolean [] t) {
-        for (int i = 0; i < t.length ; i++) {
+        for (int i = 0; i < 4 ; i++) {
             if(t[i] == false) {
                 return false;
             }

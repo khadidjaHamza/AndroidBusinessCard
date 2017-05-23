@@ -1,5 +1,7 @@
 package nour_b.projet.model;
 
+import nour_b.projet.R;
+
 public class User {
 
     private String mail;
@@ -100,5 +102,34 @@ public class User {
 
     public void setPhoto(String photo) {
         this.photo = photo;
+    }
+
+    @Override
+    public String toString() {
+        String userInfo = "BusinessCard \n";
+
+        if (getName() != null) {
+            userInfo += getName() + "\n";
+        }
+        if (getSurname() != null) {
+            userInfo += getSurname() + "\n";
+        }
+        if (getMail() != null) {
+            userInfo += getMail() + "\n";
+        }
+        if (getAddress() != null) {
+            userInfo += R.string.address + " : " + getAddress() + "\n";
+        }
+        if (getTel1() != null) {
+            userInfo += R.string.tel1 + " : " + getTel1() + "\n";
+        }
+        if (getTel2() != null) {
+            userInfo += R.string.tel2 + " : " + getTel2() + "\n";
+        }
+        if (getWebsite() != null) {
+            userInfo += R.string.site + " : " + getWebsite() + "\n";
+        }
+
+        return userInfo;
     }
 }

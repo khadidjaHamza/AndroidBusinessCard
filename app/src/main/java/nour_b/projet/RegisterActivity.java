@@ -1,5 +1,6 @@
 package nour_b.projet;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -41,8 +42,6 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText register_phone2;
     private EditText register_website;
     private TextView title;
-
-
 
     private CheckBox checkBox_birth;
     private CheckBox checkBox_mail;
@@ -96,11 +95,13 @@ public class RegisterActivity extends AppCompatActivity {
                 DBRegister db = new DBRegister(this);
                 User u = db.getUser(bundle.getString("eMAIL"));
 
-                File imgFile = new  File(u.getPhoto().toString());
+                if(u.getPhoto()!= null) {
+                    File imgFile = new  File(u.getPhoto().toString());
 
-                if(imgFile.exists()){
-                    Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
-                    register_photo.setImageBitmap(myBitmap);
+                    if(imgFile.exists()){
+                        Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+                        register_photo.setImageBitmap(myBitmap);
+                    }
                 }
 
                 register_name.setText(u.getName());
@@ -122,10 +123,7 @@ public class RegisterActivity extends AppCompatActivity {
         register_photo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getPhotoGallery(RegisterActivity.this);
-                /*Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-                photoPickerIntent.setType("image/*");
-                startActivityForResult(photoPickerIntent, 0);*/
+                getPhotoFromGallery(RegisterActivity.this);
             }
         });
 
@@ -183,10 +181,8 @@ public class RegisterActivity extends AppCompatActivity {
             case 0:
                 if(resultCode == RESULT_OK){
                     try {
-                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageReturnedIntent.getData());
-                        register_photo.setImageBitmap(bitmap);
+                        register_photo.setImageBitmap(MediaStore.Images.Media.getBitmap(getContentResolver(), imageReturnedIntent.getData()));
                         photo = getRealPathFromURI(getApplicationContext(), imageReturnedIntent.getData());
-                        System.out.println(photo);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }

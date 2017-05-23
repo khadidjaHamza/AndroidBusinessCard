@@ -1,7 +1,10 @@
 package nour_b.projet;
 
+import android.content.ActivityNotFoundException;
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -13,6 +16,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.telephony.SmsManager;
+
+import java.io.File;
 
 import nour_b.projet.localDatabase.DBRegister;
 import nour_b.projet.model.User;
@@ -56,12 +61,12 @@ public class PersonalCardActivity extends AppCompatActivity {
             DBRegister db = new DBRegister(this);
             User u = db.getUser(bundle.getString("eMAIL"));
 
-           // File imgFile = new  File(u.getPhoto());
+            File imgFile = new  File(u.getPhoto());
 
-          /*  if(imgFile.exists()){
+           if(imgFile.exists()){
                 Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
                 photo.setImageBitmap(myBitmap);
-            }*/
+           }
 
             name.setText(u.getName());
             surname.setText(u.getSurname());
@@ -112,45 +117,14 @@ public class PersonalCardActivity extends AppCompatActivity {
 
         int id = item.getItemId();
 
-        if (id == R.id.action_share) {
+        if (id == R.id.action_sms) {
             try {
-
-                Intent intent = new Intent("com.google.zxing.client.android.SCAN");
-                intent.putExtra("SCAN_MODE", "QR_CODE_MODE"); // "PRODUCT_MODE for bar codes
-                Log.i("le QR code ==> ",""+intent.getData());
-                startActivityForResult(intent, 0);
-
-            } catch (Exception e) {
-
-                Uri marketUri = Uri.parse("market://details?id=com.google.zxing.client.android");
-                Intent marketIntent = new Intent(Intent.ACTION_VIEW,marketUri);
-                startActivity(marketIntent);
-
-            }
-            //****** fin de la lecture du QRCode  *******//
-            try {
-
-                startActivityForResult(SMSHandler.getContact(),SMSHandler.PICK_CONTACT_REQUEST);
+                startActivityForResult(SMSHandler.getContact(), SMSHandler.PICK_CONTACT_REQUEST);
                 onActivityResult(SMSHandler.PICK_CONTACT_REQUEST,SMSHandler.CONTACT_PICKER , SMSHandler.getContact());
-                String content = "test";
-              /*  SmsManager smsManager = SmsManager.getDefault();
-                smsManager.sendTextMessage("5554", null, content, null, null);
-                Intent sendIntent = new Intent(Intent.ACTION_SENDTO, Uri.parse("sms:5554"));
-                sendIntent.putExtra("sms_body", content);*/
-               /* if (sendIntent.resolveActivity(getPackageManager()) != null) {
-                    startActivity(sendIntent);
-                } else {
-                    Toast.  makeText(getApplicationContext(), "INTENT NOT RESOLVED", Toast.LENGTH_SHORT).show();
-                }*/
-
                 finish();
-                Toast.makeText(PersonalCardActivity.this,
-                        "Finished sending SMS...", Toast.LENGTH_SHORT)
-                        .show();
-            } catch (android.content.ActivityNotFoundException ex) {
-                Toast.makeText(PersonalCardActivity.this,
-                        "SMS faild, please try again later.", Toast.LENGTH_SHORT)
-                        .show();
+                Toast.makeText(PersonalCardActivity.this, "Finished sending SMS...", Toast.LENGTH_SHORT).show();
+            } catch (ActivityNotFoundException ex) {
+                Toast.makeText(PersonalCardActivity.this, "SMS faild, please try again later.", Toast.LENGTH_SHORT).show();
             }
             return true;
         }
@@ -171,6 +145,8 @@ public class PersonalCardActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
     @Override
         protected void onActivityResult(int requestCode, int resultCode, Intent data) {
             super.onActivityResult(requestCode, resultCode, data);
@@ -182,7 +158,7 @@ public class PersonalCardActivity extends AppCompatActivity {
             switch (requestCode) {
                 case SMSHandler.CONTACT_PICKER:
                     ContentResolver cr = getContentResolver();
-                    String tel = SMSHandler.contactPicked(data,cr);
+                    String tel = SMSHandler.contactPicked(data, cr);
                     Log.i("le tel est ","==>"+tel);
                     Intent smsIntent = new Intent(Intent.ACTION_SENDTO, Uri.parse("smsto:" + tel));
                   //  smsIntent.get

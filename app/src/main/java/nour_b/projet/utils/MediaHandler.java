@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
 
@@ -13,7 +14,7 @@ import android.provider.MediaStore;
 
 public class MediaHandler {
 
-    public static void getPhotoGallery(Activity activity) {
+    public static void getPhotoFromGallery(Activity activity) {
         Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
         photoPickerIntent.setType("image/*");
         activity.startActivityForResult(photoPickerIntent, 0);
