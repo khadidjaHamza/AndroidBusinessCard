@@ -128,6 +128,14 @@ public class PersonalCardActivity extends AppCompatActivity {
             return true;
         }
 
+        if (id == R.id.action_import) {
+            return true;
+        }
+
+        if (id == R.id.action_scan) {
+            return true;
+        }
+
         if (id == R.id.action_settings) {
             Intent intent = new Intent(PersonalCardActivity.this, RegisterActivity.class);
             intent.putExtra("eMAIL", mail.getText().toString());

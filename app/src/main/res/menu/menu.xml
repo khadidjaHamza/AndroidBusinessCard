@@ -7,13 +7,20 @@
         android:title="@string/menu_share">
 
         <menu>
-            <item android:id="@+id/action_scan"
+
+            <item android:id="@+id/action_import"
                 android:orderInCategory="100" app:showAsAction="always"
-                android:title="@string/ssmenu_scan" />
+                android:title="@string/ssmenu_import" />
 
             <item android:id="@+id/action_sms"
                 android:orderInCategory="100" app:showAsAction="always"
                 android:title="@string/ssmenu_sms" />
+
+            <item android:id="@+id/action_scan"
+                android:orderInCategory="100" app:showAsAction="always"
+                android:title="@string/ssmenu_scan" />
+
+
         </menu>
 
     </item>

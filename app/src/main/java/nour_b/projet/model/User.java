@@ -1,5 +1,7 @@
 package nour_b.projet.model;
 
+import android.content.Context;
+
 import nour_b.projet.R;
 
 public class User {
@@ -15,7 +17,7 @@ public class User {
     private String website;
     private String photo;
 
-    public User() {}
+    public User(Context ctxt) {}
 
     public User(String mail, String password, String name, String surname) {
         this.mail = mail;
@@ -102,8 +104,8 @@ public class User {
         this.photo = photo;
     }
 
-    @Override
-    public String toString() {
+
+    public String toString(Context ctxt) {
         String userInfo = "BusinessCard \n";
 
         if (getName() != null) {
@@ -116,16 +118,16 @@ public class User {
             userInfo += getMail() + "\n";
         }
         if (getAddress() != null) {
-            userInfo += R.string.address + " : " + getAddress() + "\n";
+            userInfo += ctxt.getString(R.string.address) + " : " + getAddress() + "\n";
         }
         if (getTel1() != null) {
-            userInfo += R.string.tel1 + " : " + getTel1() + "\n";
+            userInfo += ctxt.getString(R.string.tel1) + " : " + getTel1() + "\n";
         }
         if (getTel2() != null) {
-            userInfo += R.string.tel2 + " : " + getTel2() + "\n";
+            userInfo += ctxt.getString(R.string.tel2) + " : " + getTel2() + "\n";
         }
         if (getWebsite() != null) {
-            userInfo += R.string.site + " : " + getWebsite() + "\n";
+            userInfo += ctxt.getString(R.string.site) + " : " + getWebsite() + "\n";
         }
 
         return userInfo;
