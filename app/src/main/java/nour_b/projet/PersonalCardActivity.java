@@ -61,12 +61,13 @@ public class PersonalCardActivity extends AppCompatActivity {
             DBRegister db = new DBRegister(this);
             User u = db.getUser(bundle.getString("eMAIL"));
 
-            File imgFile = new  File(u.getPhoto());
-
-           if(imgFile.exists()){
-                Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
-                photo.setImageBitmap(myBitmap);
-           }
+            if(u.getPhoto() != null) {
+                File imgFile = new File(u.getPhoto());
+                if(imgFile.exists()){
+                    Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+                    photo.setImageBitmap(myBitmap);
+                }
+            }
 
             name.setText(u.getName());
             surname.setText(u.getSurname());
@@ -76,7 +77,6 @@ public class PersonalCardActivity extends AppCompatActivity {
             phone1.setText(u.getTel1());
             phone2.setText(u.getTel2());
             website.setText(u.getWebsite());
-
         }
 
         address.setOnClickListener(new View.OnClickListener() {
@@ -121,7 +121,6 @@ public class PersonalCardActivity extends AppCompatActivity {
             try {
                 startActivityForResult(SMSHandler.getContact(), SMSHandler.PICK_CONTACT_REQUEST);
                 onActivityResult(SMSHandler.PICK_CONTACT_REQUEST,SMSHandler.CONTACT_PICKER , SMSHandler.getContact());
-                finish();
                 Toast.makeText(PersonalCardActivity.this, "Finished sending SMS...", Toast.LENGTH_SHORT).show();
             } catch (ActivityNotFoundException ex) {
                 Toast.makeText(PersonalCardActivity.this, "SMS faild, please try again later.", Toast.LENGTH_SHORT).show();
@@ -169,5 +168,7 @@ public class PersonalCardActivity extends AppCompatActivity {
             Log.e("MainActivity", "Failed to pick contact");
         }
     }
+
+
 
 }

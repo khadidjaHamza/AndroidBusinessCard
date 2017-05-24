@@ -57,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
     // Mise en place du menu dans l'ActionBar (items répertoriés dans menu_main.xml)
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
