@@ -16,16 +16,19 @@ public class User {
     private String tel2;
     private String website;
     private String photo;
+    private Context ctx;
 
-    public User(Context ctxt) {}
-
+    public User(Context ctxt) {
+        this.ctx = ctx;
+    }
+    public User() {}
     public User(String mail, String password, String name, String surname) {
         this.mail = mail;
         this.password = password;
         this.name = name;
         this.surname = surname;
     }
-
+    public Context getContext(){ return this.ctx; }
     public String getMail() {
         return mail;
     }

@@ -39,7 +39,8 @@ public class PersonalCardActivity extends AppCompatActivity {
     TextView website;
 
     ImageView qr_code;
-
+    boolean sms = true;
+    User user;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_personal_card);
@@ -59,24 +60,24 @@ public class PersonalCardActivity extends AppCompatActivity {
         if(bundle.getString("eMAIL")!= null) {
 
             DBRegister db = new DBRegister(this);
-            User u = db.getUser(bundle.getString("eMAIL"));
+            user = db.getUser(bundle.getString("eMAIL"));
 
-            if(u.getPhoto() != null) {
-                File imgFile = new File(u.getPhoto());
+            if(user.getPhoto() != null) {
+                File imgFile = new File(user.getPhoto());
                 if(imgFile.exists()){
                     Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
                     photo.setImageBitmap(myBitmap);
                 }
             }
 
-            name.setText(u.getName());
-            surname.setText(u.getSurname());
-            mail.setText(u.getMail());
-            birth.setText(u.getBirth());
-            address.setText(u.getAddress());
-            phone1.setText(u.getTel1());
-            phone2.setText(u.getTel2());
-            website.setText(u.getWebsite());
+            name.setText(user.getName());
+            surname.setText(user.getSurname());
+            mail.setText(user.getMail());
+            birth.setText(user.getBirth());
+            address.setText(user.getAddress());
+            phone1.setText(user.getTel1());
+            phone2.setText(user.getTel2());
+            website.setText(user.getWebsite());
         }
 
         address.setOnClickListener(new View.OnClickListener() {
@@ -96,9 +97,9 @@ public class PersonalCardActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 try {
-                   // startActivity();
+                    // startActivity();
                 } catch (android.content.ActivityNotFoundException ex) {
-                  //
+                    //
                 }
             }
         });
@@ -127,12 +128,16 @@ public class PersonalCardActivity extends AppCompatActivity {
             }
             return true;
         }
-
         if (id == R.id.action_import) {
-            return true;
-        }
+            sms = false;
+            try {
+                startActivityForResult(SMSHandler.getContact(), SMSHandler.PICK_CONTACT_REQUEST);
 
-        if (id == R.id.action_scan) {
+                onActivityResult(SMSHandler.PICK_CONTACT_REQUEST,SMSHandler.CONTACT_PICKER , SMSHandler.getContact());
+                Toast.makeText(PersonalCardActivity.this, "Finished sending SMS...", Toast.LENGTH_SHORT).show();
+            } catch (ActivityNotFoundException ex) {
+                Toast.makeText(PersonalCardActivity.this, "SMS faild, please try again later.", Toast.LENGTH_SHORT).show();
+            }
             return true;
         }
 
@@ -155,28 +160,45 @@ public class PersonalCardActivity extends AppCompatActivity {
 
 
     @Override
-        protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-            super.onActivityResult(requestCode, resultCode, data);
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         // check whether the result is ok
         Log.i("le resultaaa===> ", "" + resultCode);
         if (resultCode == RESULT_OK) {
             // Check for the request code, we might be usign multiple
             // startActivityForReslut
             switch (requestCode) {
-                case SMSHandler.CONTACT_PICKER:
-                    ContentResolver cr = getContentResolver();
-                    String tel = SMSHandler.contactPicked(data, cr);
-                    Log.i("le tel est ","==>"+tel);
-                    Intent smsIntent = new Intent(Intent.ACTION_SENDTO, Uri.parse("smsto:" + tel));
-                  //  smsIntent.get
-                    startActivity(smsIntent);
-                    break;
+                case SMSHandler.CONTACT_PICKER :
+                    if(sms){
+                        ContentResolver cr = getContentResolver();
+                        String tel = SMSHandler.contactPicked(data, cr).getTel1();
+                        Log.i("le tel est ","==>"+user.toString());
+
+                        Intent smsIntent = new Intent(Intent.ACTION_SENDTO, Uri.parse("smsto:" + tel));
+                        smsIntent.putExtra("sms_body",user.toString(getApplicationContext()));
+                        startActivity(smsIntent);
+                        break;
+                    }else{
+                        ContentResolver cr = getContentResolver();
+                        User user = SMSHandler.contactPicked(data, cr);
+                        Log.i("le tel est ","==>"+user.toString());
+                        name.setText(user.getName());
+                        surname.setText(user.getSurname());
+                        mail.setText(user.getMail());
+                        birth.setText(user.getBirth());
+                        address.setText(user.getAddress());
+                        phone1.setText(user.getTel1());
+                        phone2.setText(user.getTel2());
+                        website.setText(user.getWebsite());
+                      /*  Intent smsIntent = new Intent(Intent.ACTION_SENDTO, Uri.parse("smsto:" + tel));
+                        smsIntent.putExtra("sms_body",user.toString());
+                        startActivity(smsIntent);*/
+                        break;
+                    }
+
             }
         } else {
             Log.e("MainActivity", "Failed to pick contact");
         }
     }
-
-
-
 }
