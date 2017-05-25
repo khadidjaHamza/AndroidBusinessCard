@@ -22,6 +22,7 @@
     import nour_b.projet.model.Card;
     import nour_b.projet.utils.SMSHandler;
 
+    import static nour_b.projet.utils.DataCardHandler.setTextViewPersonalCard;
     import static nour_b.projet.utils.ErrorMessages.pbGeolocalisation;
     import static nour_b.projet.utils.GPSHandler.getGeoLocation;
 
@@ -72,6 +73,8 @@
 
                 name.setText(card.getName());
                 surname.setText(card.getSurname());
+
+                setTextViewPersonalCard(getApplicationContext(), address, phone1, phone2, mail, website);
                 mail.setText(card.getMail());
                 address.setText(card.getAddress());
                 phone1.setText(card.getTel1());
@@ -187,7 +190,6 @@
                             website.setText(card.getWebsite());
                             break;
                         }
-
                 }
             } else {
                 Log.e("MainActivity", "Failed to pick contact");

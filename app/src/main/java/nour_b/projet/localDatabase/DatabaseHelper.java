@@ -27,7 +27,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                                             + COL_PASSWORD + " TEXT, "
                                             + COL_NAME + " TEXT NOT NULL, "
                                             + COL_SURNAME + " TEXT NOT NULL,"
-                                            + COL_BIRTH + " TEXT,"
                                             + COL_ADDRESS + " TEXT,"
                                             + COL_TEL1 + "  TEXT,"
                                             + COL_TEL2 + "  TEXT,"

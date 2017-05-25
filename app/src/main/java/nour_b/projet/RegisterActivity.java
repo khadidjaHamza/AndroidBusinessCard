@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.v4.internal.view.SupportSubMenu;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -42,7 +43,6 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText register_website;
     private TextView title;
 
-    private CheckBox checkBox_birth;
     private CheckBox checkBox_mail;
     private CheckBox checkBox_site;
     private CheckBox checkBox_address;
@@ -71,11 +71,11 @@ public class RegisterActivity extends AppCompatActivity {
         register_phone2 = (EditText) findViewById(R.id.register_phone2);
         register_website = (EditText) findViewById(R.id.register_site);
 
-        checkBox_mail = (CheckBox) findViewById(R.id.checkBox_mail);;
-        checkBox_site = (CheckBox) findViewById(R.id.checkBox_site);;
-        checkBox_address = (CheckBox) findViewById(R.id.checkBox_address);;
-        checkBox_tel1 = (CheckBox) findViewById(R.id.checkBox_tel1);;
-        checkBox_tel2 = (CheckBox) findViewById(R.id.checkBox_tel2);;
+        checkBox_mail = (CheckBox) findViewById(R.id.checkBox_mail);
+        checkBox_site = (CheckBox) findViewById(R.id.checkBox_site);
+        checkBox_address = (CheckBox) findViewById(R.id.checkBox_address);
+        checkBox_tel1 = (CheckBox) findViewById(R.id.checkBox_tel1);
+        checkBox_tel2 = (CheckBox) findViewById(R.id.checkBox_tel2);
 
         register_ok = (Button) findViewById(R.id.register_ok);
 
@@ -86,6 +86,8 @@ public class RegisterActivity extends AppCompatActivity {
             Bundle bundle = getIntent().getExtras();
 
             if(bundle.getString("eMAIL")!= null) {
+
+                setStateCheckedBox(getApplicationContext(), checkBox_address, checkBox_tel1, checkBox_tel2, checkBox_mail, checkBox_site);
 
                 DBRegister db = new DBRegister(this);
                 Card card = db.getCard(bundle.getString("eMAIL"));
@@ -109,6 +111,8 @@ public class RegisterActivity extends AppCompatActivity {
                 register_phone1.setText(card.getTel1());
                 register_phone2.setText(card.getTel2());
                 register_website.setText(card.getWebsite());
+
+
             }
         } else {
             title.setText(R.string.title_register);
@@ -162,6 +166,8 @@ public class RegisterActivity extends AppCompatActivity {
                 } else {
                     printErrorValidation(getApplicationContext(), validation);
                 }
+
+                storeStateCheckedBox(getApplicationContext(), checkBox_address, checkBox_tel1, checkBox_tel2, checkBox_mail, checkBox_site);
             }
         });
 
