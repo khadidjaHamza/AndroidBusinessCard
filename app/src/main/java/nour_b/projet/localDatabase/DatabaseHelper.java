@@ -6,22 +6,22 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-    public static final String TABLE_USER = "table_USER";
-    public static final String COL_ID ="USER_id";
-    public static final String COL_MAIL ="USER_mail";
-    public static final String COL_PASSWORD ="USER_password";
-    public static final String COL_NAME ="USER_name";
-    public static final String COL_SURNAME ="USER_surname";
-    public static final String COL_BIRTH ="USER_birth";
-    public static final String COL_ADDRESS = "USER_address";
-    public static final String COL_TEL1 = "USER_tel1";
-    public static final String COL_TEL2 = "USER_tel2";
-    public static final String COL_WEBSITE = "USER_website";
-    public static final String COL_PHOTO = "USER_photo";
+    public static final String TABLE_CARD = "table_CARD";
+    public static final String COL_ID ="CARD_id";
+    public static final String COL_MAIL ="CARD_mail";
+    public static final String COL_PASSWORD ="CARD_password";
+    public static final String COL_NAME ="CARD_name";
+    public static final String COL_SURNAME ="CARD_surname";
+    public static final String COL_BIRTH ="CARD_birth";
+    public static final String COL_ADDRESS = "CARD_address";
+    public static final String COL_TEL1 = "CARD_tel1";
+    public static final String COL_TEL2 = "CARD_tel2";
+    public static final String COL_WEBSITE = "CARD_website";
+    public static final String COL_PHOTO = "CARD_photo";
 
 
 
-    private final String CREATE_TABLE_USER = "CREATE TABLE " + TABLE_USER + "("
+    private final String CREATE_TABLE_CARD = "CREATE TABLE " + TABLE_CARD + "("
                                             + COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                                             + COL_MAIL + " TEXT UNIQUE, "
                                             + COL_PASSWORD + " TEXT, "
@@ -61,7 +61,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL(CREATE_TABLE_USER);
+        db.execSQL(CREATE_TABLE_CARD);
     }
 
     /**
@@ -86,7 +86,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      */
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS" + TABLE_USER + ";");
+        db.execSQL("DROP TABLE IF EXISTS" + TABLE_CARD + ";");
         onCreate(db);
     }
 

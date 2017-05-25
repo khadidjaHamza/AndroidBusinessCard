@@ -116,13 +116,6 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="date"
-        android:hint="@string/birth_format"
-        android:id="@+id/register_birth" />
-
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:inputType="textPersonName"
         android:hint="@string/address"
         android:id="@+id/register_address" />
@@ -177,14 +170,32 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:orientation="horizontal">
 
             <CheckBox
-                android:id="@+id/checkBox_birth"
+                android:id="@+id/checkBox_address"
                 android:layout_width="wrap_content"
-                android:layout_height="22dp"
-                android:text="@string/birth" />
+                android:layout_height="21dp"
+                android:text="@string/address" />
+
+            <CheckBox
+                android:id="@+id/checkBox_tel1"
+                android:layout_width="wrap_content"
+                android:layout_height="17dp"
+                android:text="@string/tel1" />
+
+            <CheckBox
+                android:id="@+id/checkBox_tel2"
+                android:layout_width="wrap_content"
+                android:layout_height="19dp"
+                android:text="@string/tel2" />
+        </LinearLayout>`
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
 
             <CheckBox
                 android:id="@+id/checkBox_mail"
@@ -199,29 +210,7 @@
                 android:text="@string/site" />
         </LinearLayout>
 
-        <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
 
-                <CheckBox
-                    android:id="@+id/checkBox_address"
-                    android:layout_width="wrap_content"
-                    android:layout_height="21dp"
-                    android:text="@string/address" />
-
-                <CheckBox
-                    android:id="@+id/checkBox_tel1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="17dp"
-                    android:text="@string/tel1" />
-
-                <CheckBox
-                    android:id="@+id/checkBox_tel2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="19dp"
-                    android:text="@string/tel2" />
-            </LinearLayout>`
 
     </LinearLayout>
 

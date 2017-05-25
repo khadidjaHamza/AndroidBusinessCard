@@ -1,6 +1,5 @@
 package nour_b.projet;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -20,15 +19,16 @@ import java.io.File;
 import java.io.IOException;
 
 import nour_b.projet.localDatabase.DBRegister;
-import nour_b.projet.model.User;
+import nour_b.projet.model.Card;
 
 import static nour_b.projet.MainActivity.LOGIN;
 import static nour_b.projet.utils.ErrorMessages.*;
 import static nour_b.projet.utils.MediaHandler.*;
-import static nour_b.projet.utils.DataUserHandler.*;
+import static nour_b.projet.utils.DataCardHandler.*;
 
 public class RegisterActivity extends AppCompatActivity {
 
+    String photo;
     private ImageView register_photo;
     private EditText register_name;
     private EditText register_surname;
@@ -36,7 +36,6 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText register_email_verif;
     private EditText register_password;
     private EditText register_password_verif;
-    private EditText register_birth;
     private EditText register_address;
     private EditText register_phone1;
     private EditText register_phone2;
@@ -53,8 +52,6 @@ public class RegisterActivity extends AppCompatActivity {
 
     private Button register_ok;
 
-    String photo;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,13 +66,11 @@ public class RegisterActivity extends AppCompatActivity {
         register_email_verif = (EditText) findViewById(R.id.register_email_verif);
         register_password = (EditText) findViewById(R.id.register_password);
         register_password_verif = (EditText) findViewById(R.id.register_password_verif);
-        register_birth = (EditText) findViewById(R.id.register_birth);
         register_address = (EditText) findViewById(R.id.register_address);
         register_phone1 = (EditText) findViewById(R.id.register_phone1);
         register_phone2 = (EditText) findViewById(R.id.register_phone2);
         register_website = (EditText) findViewById(R.id.register_site);
 
-        checkBox_birth = (CheckBox) findViewById(R.id.checkBox_birth);
         checkBox_mail = (CheckBox) findViewById(R.id.checkBox_mail);;
         checkBox_site = (CheckBox) findViewById(R.id.checkBox_site);;
         checkBox_address = (CheckBox) findViewById(R.id.checkBox_address);;
@@ -93,10 +88,10 @@ public class RegisterActivity extends AppCompatActivity {
             if(bundle.getString("eMAIL")!= null) {
 
                 DBRegister db = new DBRegister(this);
-                User u = db.getUser(bundle.getString("eMAIL"));
+                Card card = db.getCard(bundle.getString("eMAIL"));
 
-                if(u.getPhoto()!= null) {
-                    File imgFile = new  File(u.getPhoto().toString());
+                if(card.getPhoto()!= null) {
+                    File imgFile = new  File(card.getPhoto().toString());
 
                     if(imgFile.exists()){
                         Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
@@ -104,17 +99,16 @@ public class RegisterActivity extends AppCompatActivity {
                     }
                 }
 
-                register_name.setText(u.getName());
-                register_surname.setText(u.getSurname());
-                register_email.setText(u.getMail());
-                register_email_verif.setText(u.getMail());
-                register_password.setText(u.getPassword());
-                register_password_verif.setText(u.getPassword());
-                register_birth.setText(u.getBirth());
-                register_address.setText(u.getAddress());
-                register_phone1.setText(u.getTel1());
-                register_phone2.setText(u.getTel2());
-                register_website.setText(u.getWebsite());
+                register_name.setText(card.getName());
+                register_surname.setText(card.getSurname());
+                register_email.setText(card.getMail());
+                register_email_verif.setText(card.getMail());
+                register_password.setText(card.getPassword());
+                register_password_verif.setText(card.getPassword());
+                register_address.setText(card.getAddress());
+                register_phone1.setText(card.getTel1());
+                register_phone2.setText(card.getTel2());
+                register_website.setText(card.getWebsite());
             }
         } else {
             title.setText(R.string.title_register);
@@ -136,7 +130,6 @@ public class RegisterActivity extends AppCompatActivity {
                 String email_verif = register_email_verif.getText().toString();
                 String password = register_password.getText().toString();
                 String password_verif = register_password_verif.getText().toString();
-                String birth = register_birth.getText().toString();
                 String address = register_address.getText().toString();
                 String phone1 = register_phone1.getText().toString();
                 String phone2 = register_phone2.getText().toString();
@@ -144,28 +137,27 @@ public class RegisterActivity extends AppCompatActivity {
 
                 boolean [] validation = {   textValidation(name),textValidation(surname),
                                             mailValidation(email, email_verif), passwordValidation(password, password_verif),
-                                            birthValidation(birth), textValidation(address), telValidation(phone1), telValidation(phone2),
+                                            textValidation(address), telValidation(phone1), telValidation(phone2),
                                             textValidation(website) } ;
 
                 if(registerOk(validation)) {
-                    User u = new User(email, password, name, surname);
-                    u.setPhoto(photo);
-                    u.setBirth(birth);
-                    u.setAddress(address);
-                    u.setTel1(phone1);
-                    u.setTel2(phone2);
-                    u.setWebsite(website);
+                    Card card = new Card(email, password, name, surname);
+                    card.setPhoto(photo);
+                    card.setAddress(address);
+                    card.setTel1(phone1);
+                    card.setTel2(phone2);
+                    card.setWebsite(website);
 
                     DBRegister db = new DBRegister(getApplicationContext());
                     if(db.exist(email)) {
-                        db.updateProduit(u);
+                        db.updateCard(card);
                     } else {
-                        db.storeUser(u);
+                        db.storeCard(card);
                     }
 
                     LOGIN = true ;
                     Intent i = new Intent(RegisterActivity.this, PersonalCardActivity.class);
-                    i.putExtra("eMAIL", u.getMail());
+                    i.putExtra("eMAIL", card.getMail());
                     startActivity(i);
                 } else {
                     printErrorValidation(getApplicationContext(), validation);

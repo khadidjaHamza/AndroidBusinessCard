@@ -22,8 +22,6 @@
     <string name="title_editing">MODIFICATION</string>
     <string name="name">Prénom</string>
     <string name="surname">Nom</string>
-    <string name="birth_format">Date de naissance (JJ/MM/AAAA)</string>
-    <string name="birth">Date de naissance</string>
     <string name="address">Adresse</string>
     <string name="tel1">Téléphone 1</string>
     <string name="tel2">Téléphone 2</string>
@@ -41,7 +39,6 @@
     <string name="pbName">Prénom : 2 à 20 caractères</string>
     <string name="pbSurname">Nom : 2 à 20 caractères</string>
     <string name="pbAddress">Adresse : 2 à 20 caractères</string>
-    <string name="pbBirth">Date de naissance : format JJ/MM/AAAA</string>
     <string name="pbTel">Téléphone : 10 chiffres</string>
     <string name="pbMail">Mail : format xxx@xxx.xx</string>
     <string name="pbSite">Site web : format xxx.xxx</string>

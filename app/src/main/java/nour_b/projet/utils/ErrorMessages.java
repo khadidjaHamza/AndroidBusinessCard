@@ -49,7 +49,6 @@ public class ErrorMessages {
         mapValidationMsg.put(1, ctxt.getString(R.string.pbSurname));
         mapValidationMsg.put(2, ctxt.getString(R.string.pbMail));
         mapValidationMsg.put(3, ctxt.getString(R.string.pbPassword));
-        mapValidationMsg.put(4, ctxt.getString(R.string.pbBirth));
         mapValidationMsg.put(5, ctxt.getString(R.string.pbAddress));
         mapValidationMsg.put(6, ctxt.getString(R.string.pbTel));
         mapValidationMsg.put(7, ctxt.getString(R.string.pbTel));

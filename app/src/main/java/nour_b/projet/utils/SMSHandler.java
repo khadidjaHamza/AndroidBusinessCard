@@ -7,13 +7,11 @@ import android.net.Uri;
 import android.provider.ContactsContract;
 import android.util.Log;
 
-import com.google.zxing.common.StringUtils;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-import nour_b.projet.model.User;
+import nour_b.projet.model.Card;
 
 public class SMSHandler {
 
@@ -28,13 +26,13 @@ public class SMSHandler {
         return contactIntent;
     }
 
-    public  static User contactPicked(Intent data, ContentResolver cr) {
+    public  static Card contactPicked(Intent data, ContentResolver cr) {
 
         Log.i("ee","contactPicked");
         Cursor cur;
         Intent smsIntent = null;
         Log.i("ContactPicked", "");
-        User user = new User();
+        Card card = new Card();
         try {
             // getData() method will have the Content Uri of the selected
             // contact
@@ -50,12 +48,12 @@ public class SMSHandler {
             String name = cur.getString(cur
                     .getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
             Log.i("le nom===>", "" + name); // print data
-            user.setName(name);
+            card.setName(name);
             // column index of the contact name
             String surname = cur.getString(cur
                     .getColumnIndex(ContactsContract.Contacts.PHONETIC_NAME));
             Log.i("le nom===>", "" + name); // print data
-            user.setSurname(surname);
+            card.setSurname(surname);
             // column index of the phone number
             Cursor pCur = cr.query(
                     ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,
@@ -68,7 +66,7 @@ public class SMSHandler {
                                 .getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
                 //  smsIntent = new Intent(Intent.ACTION_SENDTO, Uri.parse("smsto:" + phone));
                 Log.i("le phone ===>", "" + phone); // print data
-                user.setTel1(phone);
+                card.setTel1(phone);
             }
             pCur.close();
 
@@ -84,7 +82,7 @@ public class SMSHandler {
                         .getString(emailCur
                                 .getColumnIndex(ContactsContract.CommonDataKinds.Email.ADDRESS));
                 Log.i("le email ===>", "" + email); // print data
-                user.setMail(email);
+                card.setMail(email);
             }
             emailCur.close();
             // column index of the adresse
@@ -99,7 +97,7 @@ public class SMSHandler {
                         .getString(adrCur
                                 .getColumnIndex(ContactsContract.CommonDataKinds.StructuredPostal.STREET));
                 Log.i("l'adresse  ===>", "" + adr); // print data
-                user.setAddress(adr);
+                card.setAddress(adr);
             }
             adrCur.close();
             // column index of the webSite
@@ -113,7 +111,7 @@ public class SMSHandler {
             while (website.moveToNext()) {
                 String val = website.getString(website.getColumnIndex(ContactsContract.CommonDataKinds.Website.URL));
               Log.i("le webSite est ==>",val);
-                user.setWebsite(val);
+                card.setWebsite(val);
             }
 
             Date date = null;
@@ -131,7 +129,7 @@ public class SMSHandler {
                 e.printStackTrace();
             }
             if(date != null) {
-                user.setBirth(date.toString());
+               // card.setBirth(date.toString());
             }
             if(c != null){
                 c.close();
@@ -140,6 +138,6 @@ public class SMSHandler {
             e.printStackTrace();
         }
 
-        return   user;
+        return card;
     }
 }

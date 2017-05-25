@@ -15,12 +15,11 @@
     import android.widget.ImageView;
     import android.widget.TextView;
     import android.widget.Toast;
-    import android.telephony.SmsManager;
 
     import java.io.File;
 
     import nour_b.projet.localDatabase.DBRegister;
-    import nour_b.projet.model.User;
+    import nour_b.projet.model.Card;
     import nour_b.projet.utils.SMSHandler;
 
     import static nour_b.projet.utils.ErrorMessages.pbGeolocalisation;
@@ -28,19 +27,21 @@
 
     public class PersonalCardActivity extends AppCompatActivity {
 
+        Card card;
+
         ImageView photo;
         TextView address;
         TextView mail;
         TextView name;
         TextView surname;
-        TextView birth;
         TextView phone1;
         TextView phone2;
         TextView website;
 
         ImageView qr_code;
+
         boolean sms = true;
-        User user;
+
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_personal_card);
@@ -49,7 +50,6 @@
             name = (TextView) findViewById(R.id.name);
             surname = (TextView) findViewById(R.id.surname);
             mail = (TextView) findViewById(R.id.email);
-            birth = (TextView) findViewById(R.id.birth);
             address = (TextView) findViewById(R.id.address);
             phone1 = (TextView) findViewById(R.id.phone1);
             phone2 = (TextView) findViewById(R.id.phone2);
@@ -60,24 +60,23 @@
             if(bundle.getString("eMAIL")!= null) {
 
                 DBRegister db = new DBRegister(this);
-                user = db.getUser(bundle.getString("eMAIL"));
+                card = db.getCard(bundle.getString("eMAIL"));
 
-                if(user.getPhoto() != null) {
-                    File imgFile = new File(user.getPhoto());
+                if(card.getPhoto() != null) {
+                    File imgFile = new File(card.getPhoto());
                     if(imgFile.exists()){
                         Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
                         photo.setImageBitmap(myBitmap);
                     }
                 }
 
-                name.setText(user.getName());
-                surname.setText(user.getSurname());
-                mail.setText(user.getMail());
-                birth.setText(user.getBirth());
-                address.setText(user.getAddress());
-                phone1.setText(user.getTel1());
-                phone2.setText(user.getTel2());
-                website.setText(user.getWebsite());
+                name.setText(card.getName());
+                surname.setText(card.getSurname());
+                mail.setText(card.getMail());
+                address.setText(card.getAddress());
+                phone1.setText(card.getTel1());
+                phone2.setText(card.getTel2());
+                website.setText(card.getWebsite());
             }
 
             address.setOnClickListener(new View.OnClickListener() {
@@ -173,20 +172,19 @@
                             ContentResolver cr = getContentResolver();
                             String tel = SMSHandler.contactPicked(data, cr).getTel1();
                             Intent smsIntent = new Intent(Intent.ACTION_SENDTO, Uri.parse("smsto:" + tel));
-                            smsIntent.putExtra("sms_body",user.toString(getApplicationContext()));
+                            smsIntent.putExtra("sms_body", card.toString(getApplicationContext()));
                             startActivity(smsIntent);
                             break;
                         }else{
                             ContentResolver cr = getContentResolver();
-                            User user = SMSHandler.contactPicked(data, cr);
-                            name.setText(user.getName());
-                            surname.setText(user.getSurname());
-                            mail.setText(user.getMail());
-                            birth.setText(user.getBirth());
-                            address.setText(user.getAddress());
-                            phone1.setText(user.getTel1());
-                            phone2.setText(user.getTel2());
-                            website.setText(user.getWebsite());
+                            Card card = SMSHandler.contactPicked(data, cr);
+                            name.setText(card.getName());
+                            surname.setText(card.getSurname());
+                            mail.setText(card.getMail());
+                            address.setText(card.getAddress());
+                            phone1.setText(card.getTel1());
+                            phone2.setText(card.getTel2());
+                            website.setText(card.getWebsite());
                             break;
                         }
 

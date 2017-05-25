@@ -63,15 +63,6 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/birth"
-            android:layout_width="match_parent"
-            android:layout_height="5dp"
-            android:layout_weight="1"
-            android:ems="10"
-            android:inputType="date"
-            android:text="@string/birth" />
-
-        <TextView
             android:id="@+id/email"
             android:layout_width="match_parent"
             android:layout_height="5dp"
