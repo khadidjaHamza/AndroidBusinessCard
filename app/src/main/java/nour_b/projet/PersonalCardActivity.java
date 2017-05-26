@@ -123,7 +123,9 @@
             int id = item.getItemId();
 
             if (id == R.id.action_sms) {
+                sms = true;
                 try {
+
                     startActivityForResult(SMSHandler.getContact(), SMSHandler.PICK_CONTACT_REQUEST);
                     onActivityResult(SMSHandler.PICK_CONTACT_REQUEST,SMSHandler.CONTACT_PICKER , SMSHandler.getContact());
                     Toast.makeText(PersonalCardActivity.this, "Finished sending SMS...", Toast.LENGTH_SHORT).show();
