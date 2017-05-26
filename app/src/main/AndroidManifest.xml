@@ -26,6 +26,8 @@
         <activity android:name=".RegisterActivity"></activity>
         <activity android:name=".PersonalCardActivity" android:screenOrientation="userLandscape"></activity>
 
+        <activity android:name=".ScanActivity" android:screenOrientation="userLandscape"></activity>
+
 
 
     </application>

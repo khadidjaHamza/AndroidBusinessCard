@@ -100,6 +100,8 @@
                 public void onClick(View view) {
                     try {
                         // startActivity();
+						 Intent intent = new Intent(PersonalCardActivity.this, ScanActivity.class);
+                        startActivity(intent);
                     } catch (android.content.ActivityNotFoundException ex) {
                         //
                     }
