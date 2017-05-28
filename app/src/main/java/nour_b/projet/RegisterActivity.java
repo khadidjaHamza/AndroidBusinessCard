@@ -82,6 +82,7 @@ public class RegisterActivity extends AppCompatActivity {
         if(LOGIN) {
 
             title.setText(R.string.title_editing);
+            register_ok.setText(R.string.button_editing);
 
             Bundle bundle = getIntent().getExtras();
 
@@ -139,7 +140,7 @@ public class RegisterActivity extends AppCompatActivity {
                 String phone2 = register_phone2.getText().toString();
                 String website = register_website.getText().toString();
 
-                boolean [] validation = {   textValidation(name),textValidation(surname),
+                boolean [] validation = {   textValidationMandatory(name),textValidationMandatory(surname),
                                             mailValidation(email, email_verif), passwordValidation(password, password_verif),
                                             textValidation(address), telValidation(phone1), telValidation(phone2),
                                             textValidation(website) } ;

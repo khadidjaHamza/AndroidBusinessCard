@@ -15,13 +15,19 @@
     <!-- LOGIN .MainActivity -->
     <string name="login">AUTHENTIFICATION</string>
     <string name="connection">CONNEXION</string>
-    <string name="create_account">S\'inscrire</string>
+    <string name="create_account">S\'inscrire / Se connecter comme Invité </string>
 
     <!-- REGISTER .RegisterActivity -->
     <string name="title_register">INSCRIPTION</string>
     <string name="title_editing">MODIFICATION</string>
+    <string name="description">Il est vivement conseillé de créer un compte utilisateur si vous souhaitez conserver les données de votre carte.</string>
+    <string name="ss_description">Pour ce faire, pensez à indiquer un mail et un mot de passe avant de la générer ou modifier...</string>
+    <string name="button_register">GENERER</string>
+    <string name="button_editing">MODIFIER</string>
     <string name="name">Prénom</string>
     <string name="surname">Nom</string>
+    <string name="name_mandatory">Prénom *</string>
+    <string name="surname_mandatory">Nom *</string>
     <string name="address">Adresse</string>
     <string name="tel1">Téléphone 1</string>
     <string name="tel2">Téléphone 2</string>

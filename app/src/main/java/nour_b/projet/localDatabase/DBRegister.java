@@ -7,6 +7,9 @@ import android.database.sqlite.SQLiteDatabase;
 
 import nour_b.projet.model.Card;
 
+import static nour_b.projet.utils.DataCardHandler.passwordValidation;
+import static nour_b.projet.utils.DataCardHandler.textValidationMandatory;
+
 public class DBRegister {
 
     private static final int VERSION_BDD = 1;
@@ -32,7 +35,7 @@ public class DBRegister {
 
     public void storeCard (Card u) {
         open();
-        if (u != null) {
+        if (u != null && textValidationMandatory(u.getMail()) && !u.getPassword().equals("") ) {
             ContentValues store = new ContentValues();
             store.put(DatabaseHelper.COL_MAIL, u.getMail());
             store.put(DatabaseHelper.COL_PASSWORD, u.getPassword());

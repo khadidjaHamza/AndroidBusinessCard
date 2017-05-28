@@ -15,30 +15,32 @@ public class DataCardHandler {
     /// VALIDATION DES CHAMPS ///
     ////////////////////////////
 
-    public static boolean textValidation(String s){
+    public static boolean textValidationMandatory(String s){
         if (s.length() > 2 && s.length() < 50) {
             return true;
         }
         return false;
     }
 
-    public static boolean telValidation(String s){
-        return Patterns.PHONE.matcher(s).matches();
-    }
-
-    public static boolean birthValidation(String s) {
-        if (s.length() == 10) {
-            System.out.println(s.charAt(2));
-            System.out.println(s.charAt(5));
-            boolean slash = Character.toString(s.charAt(2)).equals("/") && Character.toString(s.charAt(5)).equals("/");
-            if(slash)
-                return true;
+    public static boolean textValidation(String s){
+        if (s.equals("") || ( s.length() > 2 && s.length() < 50 ) ) {
+            return true;
         }
         return false;
     }
 
+    public static boolean telValidation(String s){
+        if(s.equals("")) {
+            return true;
+        }else {
+            return Patterns.PHONE.matcher(s).matches();
+        }
+    }
+
     public static boolean mailValidation(String s1, String s2) {
-        if(s1.equals(s2)) {
+        if(s1.equals("") && s1.equals(s2)) {
+            return true;
+        } else if(s1.equals(s2)) {
             return android.util.Patterns.EMAIL_ADDRESS.matcher(s1).matches();
         }
         return false;
@@ -46,7 +48,7 @@ public class DataCardHandler {
 
 
     public static boolean passwordValidation(String s1, String s2) {
-        if(s1.length() >= 6 && s1.equals(s2)) {
+        if( ( s1.equals("") && s1.equals(s2) ) || ( s1.length() >= 6 && s1.equals(s2) ) ) {
             return true;
         }
         return false;
