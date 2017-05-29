@@ -13,7 +13,7 @@ import android.widget.ImageView;
 
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 import nour_b.projet.model.Card;
-import nour_b.projet.utils.SimpleQrcodeGenerator;
+import nour_b.projet.utils.QRCodeHandler;
 
 public class ScanActivity extends AppCompatActivity implements ZXingScannerView.ResultHandler{
 
@@ -34,7 +34,7 @@ public class ScanActivity extends AppCompatActivity implements ZXingScannerView.
         } else if (getIntent().getSerializableExtra("Card") != null) {
             setContentView(R.layout.qr_code);
             try {
-                Bitmap bitMatrix = SimpleQrcodeGenerator.generateMatrix(getIntent().getSerializableExtra("Card").toString());
+                Bitmap bitMatrix = QRCodeHandler.generateMatrix(getIntent().getSerializableExtra("Card").toString());
                 qr_code = (ImageView) findViewById(R.id.qr_code_generation);
                 qr_code.setImageBitmap(bitMatrix);
                 card = (Card) getIntent().getSerializableExtra("Card");

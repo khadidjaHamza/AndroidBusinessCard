@@ -3,9 +3,11 @@ package nour_b.projet;
 import android.content.ActivityNotFoundException;
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -188,15 +190,15 @@ public class PersonalCardActivity extends AppCompatActivity {
             switch (requestCode) {
                 case SMSHandler.CONTACT_PICKER :
                     if(sms){
-                        ContentResolver cr = getContentResolver();
-                        String tel = SMSHandler.contactPicked(data, cr).getTel1();
+                        String tel = SMSHandler.contactPicked(getApplicationContext(),data).getTel1();
                         Intent smsIntent = new Intent(Intent.ACTION_SENDTO, Uri.parse("smsto:" + tel));
                         smsIntent.putExtra("sms_body", card.toString(getApplicationContext()));
                         startActivity(smsIntent);
                         break;
                     } else {
                         ContentResolver cr = getContentResolver();
-                        Card card = SMSHandler.contactPicked(data, cr);
+                        Uri uri = data.getData();
+                        Card card = SMSHandler.contactPicked(getApplicationContext(), data);
                         name.setText(card.getName());
                         surname.setText(card.getSurname());
                         mail.setText(card.getMail());
