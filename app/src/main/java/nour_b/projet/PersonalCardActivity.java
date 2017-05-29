@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.google.zxing.common.BitMatrix;
 
 import java.io.File;
+import java.io.Serializable;
 
 import nour_b.projet.localDatabase.DBRegister;
 import nour_b.projet.model.Card;
@@ -30,7 +31,7 @@ import static nour_b.projet.utils.DataCardHandler.setTextViewPersonalCard;
 import static nour_b.projet.utils.ErrorMessages.pbGeolocalisation;
 import static nour_b.projet.utils.GPSHandler.getGeoLocation;
 
-public class PersonalCardActivity extends AppCompatActivity {
+public class PersonalCardActivity extends AppCompatActivity implements Serializable{
 
     Card card;
 
@@ -102,17 +103,11 @@ public class PersonalCardActivity extends AppCompatActivity {
         qr_code.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                try {
-                    int size = 600;
+                Intent intent = new Intent(PersonalCardActivity.this, ScanActivity.class);
+                intent.putExtra("Card", (Serializable)card);
+                intent.putExtra("generate",true);
+                startActivity(intent);
 
-                    Bitmap bitMatrix = SimpleQrcodeGenerator.generateMatrix(card.toString(), size);
-                    qr_code.setImageBitmap(bitMatrix);
-
-                    Log.i("SimpleQrcodeGenerator ","FIN");
-
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
             }
         });
     }
