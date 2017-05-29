@@ -122,4 +122,27 @@ public class DataCardHandler {
             site.setVisibility(View.INVISIBLE);
         }
     }
+
+    ///////////////////////////////////////////////////////////////////////////////////////
+    /// PASSAGE D'UN STRING A UN TABLEAU DES ELEMENTS D'UNE CARTE ///
+    //////////////////////////////////////////////////////////////////////////////////////
+
+    public static String[] splitStringToCard(String s) {
+        String [] array_str_split = s.split("\n");
+
+        String [] array_card = new String[7];
+        array_card[0] = array_str_split[1];
+        array_card[1] = array_str_split[2];
+        array_card[2] = array_str_split[3];
+        String [] array_address = array_str_split[4].split(":");
+        array_card[3] = array_address[1];
+        String [] array_tel1 = array_str_split[5].split(":");
+        array_card[4] = array_tel1[1];
+        String [] array_tel2 = array_str_split[6].split(":");
+        array_card[5] = array_tel2[1];
+        String [] array_site = array_str_split[7].split(":");
+        array_card[6] = array_site[1];
+
+        return array_card;
+    }
 }

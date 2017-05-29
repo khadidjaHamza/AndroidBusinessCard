@@ -4,10 +4,8 @@ import android.content.ActivityNotFoundException;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -15,9 +13,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.google.zxing.common.BitMatrix;
 
 import java.io.File;
 import java.io.Serializable;
@@ -25,11 +20,11 @@ import java.io.Serializable;
 import nour_b.projet.localDatabase.DBRegister;
 import nour_b.projet.model.Card;
 import nour_b.projet.utils.SMSHandler;
-import nour_b.projet.utils.SimpleQrcodeGenerator;
 
 import static nour_b.projet.utils.DataCardHandler.setTextViewPersonalCard;
 import static nour_b.projet.utils.ErrorMessages.pbGeolocalisation;
 import static nour_b.projet.utils.GPSHandler.getGeoLocation;
+import static nour_b.projet.utils.MediaHandler.decodeFile;
 
 public class PersonalCardActivity extends AppCompatActivity {
 
@@ -64,22 +59,36 @@ public class PersonalCardActivity extends AppCompatActivity {
         website = (TextView) findViewById(R.id.site);
 
         Bundle bundle = getIntent().getExtras();
-        if(bundle.getString("eMAIL")!= null) {
+        if(bundle.getString("eMAIL") != null) {
             db = new DBRegister(this);
             card = db.getCard(bundle.getString("eMAIL"));
 
             if(card.getPhoto() != null) {
                 File imgFile = new File(card.getPhoto());
                 if(imgFile.exists()){
-                    Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+                    Bitmap myBitmap = decodeFile(imgFile.getAbsolutePath());
                     photo.setImageBitmap(myBitmap);
                 }
+
             }
 
             name.setText(card.getName());
             surname.setText(card.getSurname());
 
             setTextViewPersonalCard(getApplicationContext(), address, phone1, phone2, mail, website);
+            mail.setText(card.getMail());
+            address.setText(card.getAddress());
+            phone1.setText(card.getTel1());
+            phone2.setText(card.getTel2());
+            website.setText(card.getWebsite());
+
+        } else if (getIntent().getSerializableExtra("card") != null ) {
+            card = (Card) getIntent().getSerializableExtra("card");
+            name.setText(card.getName());
+            surname.setText(card.getSurname());
+
+            setTextViewPersonalCard(getApplicationContext(), address, phone1, phone2, mail, website);
+
             mail.setText(card.getMail());
             address.setText(card.getAddress());
             phone1.setText(card.getTel1());
@@ -103,7 +112,7 @@ public class PersonalCardActivity extends AppCompatActivity {
         qr_code.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(PersonalCardActivity.this, ScanActivity.class);
+                Intent intent = new Intent(PersonalCardActivity.this, ScanQRCodeActivity.class);
                 intent.putExtra("Card", (Serializable) card);
                 intent.putExtra("generate",true);
                 startActivity(intent);
@@ -127,34 +136,34 @@ public class PersonalCardActivity extends AppCompatActivity {
             sms = true;
             try {
                 startActivityForResult(SMSHandler.getContact(), SMSHandler.PICK_CONTACT_REQUEST);
-                onActivityResult(SMSHandler.PICK_CONTACT_REQUEST,SMSHandler.CONTACT_PICKER , SMSHandler.getContact());
-                Toast.makeText(PersonalCardActivity.this, "Finished sending SMS...", Toast.LENGTH_SHORT).show();
+                onActivityResult(SMSHandler.PICK_CONTACT_REQUEST,SMSHandler.CONTACT_PICKER , SMSHandler.getContact());;
             } catch (ActivityNotFoundException ex) {
-                Toast.makeText(PersonalCardActivity.this, "SMS faild, please try again later.", Toast.LENGTH_SHORT).show();
+               ex.printStackTrace();
             }
             return true;
         }
+
         if (id == R.id.action_import) {
             sms = false;
             try {
                 startActivityForResult(SMSHandler.getContact(), SMSHandler.PICK_CONTACT_REQUEST);
                 onActivityResult(SMSHandler.PICK_CONTACT_REQUEST,SMSHandler.CONTACT_PICKER , SMSHandler.getContact());
-                Toast.makeText(PersonalCardActivity.this, "Finished importing contact...", Toast.LENGTH_SHORT).show();
             } catch (ActivityNotFoundException ex) {
-                Toast.makeText(PersonalCardActivity.this, "import contact faild, please try again later.", Toast.LENGTH_SHORT).show();
+                ex.printStackTrace();
             }
             return true;
         }
+
         if(id == R.id.action_scan) {
             try {
-                Intent intent = new Intent(PersonalCardActivity.this, ScanActivity.class);
+                Intent intent = new Intent(PersonalCardActivity.this, ScanQRCodeActivity.class);
                 intent.putExtra("generate",false);
                 startActivity(intent);
             } catch (android.content.ActivityNotFoundException ex) {
                 ex.printStackTrace();
             }
-
         }
+
         if (id == R.id.action_settings) {
             Intent intent = new Intent(PersonalCardActivity.this, RegisterActivity.class);
             intent.putExtra("eMAIL", mail.getText().toString());
@@ -168,6 +177,7 @@ public class PersonalCardActivity extends AppCompatActivity {
             startActivity(intent);
             return true;
         }
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -194,7 +204,6 @@ public class PersonalCardActivity extends AppCompatActivity {
                         phone1.setText(card.getTel1());
                         phone2.setText(card.getTel2());
                         website.setText(card.getWebsite());
-                     //   db.storeCard(card);
                         break;
                     }
             }

@@ -7,9 +7,6 @@ import android.database.sqlite.SQLiteDatabase;
 
 import nour_b.projet.model.Card;
 
-import static nour_b.projet.utils.DataCardHandler.passwordValidation;
-import static nour_b.projet.utils.DataCardHandler.textValidationMandatory;
-
 public class DBRegister {
 
     private static final int VERSION_BDD = 1;
@@ -135,75 +132,3 @@ public class DBRegister {
         close();
     }
 }
-
-/*
-
-    public void deleteCard (int id) {
-        db.delete(DatabaseHelper.TABLE_CARD, DatabaseHelper.COL_ID + "=?", new String[]{ id });
-    }
-
-    public void updateProduit (String nom, String qte) {
-        ContentValues updated = new ContentValues();
-        updated.put(DatabaseHelper.COL_QUANTITE, "Quantité : "+ qte);
-        db.update(DatabaseHelper.TABLE_PRODUIT, updated, DatabaseHelper.COL_NOM + " = '" + nom + "'", null);
-    }
-
-    public ArrayList<HashMap<String,String>> getAllProduit () {
-        ArrayList<HashMap<String,String>> p = new ArrayList<HashMap<String,String>>();
-        Cursor c = db.query(DatabaseHelper.TABLE_PRODUIT,
-                new String[]{DatabaseHelper.COL_NOM, DatabaseHelper.COL_REF, DatabaseHelper.COL_PRIX, DatabaseHelper.COL_QUANTITE},
-                null, null, null, null, null, null);
-        if (c != null)  {
-            for(c.moveToFirst(); c.isAfterLast() == false; c.moveToNext()) {   // add items to the list
-                HashMap<String,String> produit = new HashMap<String, String>();
-                produit.put(DatabaseHelper.COL_NOM, c.getString(0));
-                produit.put(DatabaseHelper.COL_REF, c.getString(1));
-                produit.put(DatabaseHelper.COL_PRIX, c.getString(2));
-                produit.put(DatabaseHelper.COL_QUANTITE, c.getString(3));
-                System.out.println(produit);
-                p.add(produit);
-            }
-            c.close(); // close the cursor
-        }
-        return p;
-    }
-
-    public ArrayList<HashMap<String,String>> getAllPromo () {
-        ArrayList<HashMap<String,String>> p = new ArrayList<HashMap<String,String>>();
-        Cursor c = db.query(DatabaseHelper.TABLE_PROMO,
-                new String[]{DatabaseHelper.COL_DEBUT, DatabaseHelper.COL_FIN, DatabaseHelper.COL_TYPE, DatabaseHelper.COL_MONTANT, DatabaseHelper.COL_MIN},
-                null, null, null, null, null, null);
-        if (c != null)  {
-            for(c.moveToFirst(); c.isAfterLast() == false; c.moveToNext()) {   // add items to the list
-                HashMap<String,String> produit = new HashMap<String, String>();
-                produit.put(DatabaseHelper.COL_DEBUT, c.getString(0));
-                produit.put(DatabaseHelper.COL_FIN, c.getString(1));
-                produit.put(DatabaseHelper.COL_TYPE, c.getString(2));
-                produit.put(DatabaseHelper.COL_MONTANT, c.getString(3));
-                produit.put(DatabaseHelper.COL_MIN, c.getString(4));
-                System.out.println(produit);
-                p.add(produit);
-            }
-            c.close(); // close the cursor
-        }
-        return p;
-    }
-
-    public boolean login(String ref){
-        if (ref != null) {
-            Cursor c = db.query(DatabaseHelper.TABLE_PRODUIT,
-                    new String[] {DatabaseHelper.COL_REF},
-                    DatabaseHelper.COL_REF + "= ?", new String[] {"Référence " + ref}, null, null, null);
-            if (c.getCount() > 0)
-                return true;
-            c.close();
-        }
-        return false;
-    }
-
-
-    public void deleteAll(){
-        db.delete(DatabaseHelper.TABLE_PRODUIT, null, null);
-    }
-}
-*/

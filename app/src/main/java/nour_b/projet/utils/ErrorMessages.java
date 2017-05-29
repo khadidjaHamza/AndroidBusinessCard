@@ -7,10 +7,6 @@ import java.util.HashMap;
 
 import nour_b.projet.R;
 
-/**
- * Created by nour_b on 28/03/2017.
- */
-
 public class ErrorMessages {
 
     public static HashMap<Integer, String> mapValidationMsg;

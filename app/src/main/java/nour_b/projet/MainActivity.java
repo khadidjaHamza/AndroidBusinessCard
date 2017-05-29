@@ -3,7 +3,6 @@ package nour_b.projet;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -56,27 +55,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-    }
-
-    // Mise en place du menu dans l'ActionBar (items répertoriés dans menu_main.xml)
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_launcher, menu);
-        return true;
-    }
-
-    // Gestion des actions à réaliser selon choix d'un item du menu
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        int id = item.getItemId();
-
-        if (id == R.id.action_help) {
-            setContentView(R.layout.about);
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
 }

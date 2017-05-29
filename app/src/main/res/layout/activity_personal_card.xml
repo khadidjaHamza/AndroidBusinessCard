@@ -16,9 +16,8 @@
             android:id="@+id/photo"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            app:srcCompat="@drawable/icone"
-            android:layout_gravity="center"
-            android:scaleType="fitXY"/>
+            android:src="@drawable/icone"
+            android:layout_gravity="center" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -61,8 +60,8 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_margin="20dp"
-        android:layout_marginLeft="80dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginLeft="130dp"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_weight="2"

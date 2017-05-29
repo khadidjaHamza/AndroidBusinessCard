@@ -12,7 +12,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COL_PASSWORD ="CARD_password";
     public static final String COL_NAME ="CARD_name";
     public static final String COL_SURNAME ="CARD_surname";
-    public static final String COL_BIRTH ="CARD_birth";
     public static final String COL_ADDRESS = "CARD_address";
     public static final String COL_TEL1 = "CARD_tel1";
     public static final String COL_TEL2 = "CARD_tel2";

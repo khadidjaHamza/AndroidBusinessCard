@@ -2,10 +2,8 @@ package nour_b.projet;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.v4.internal.view.SupportSubMenu;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -93,11 +91,10 @@ public class RegisterActivity extends AppCompatActivity {
                 DBRegister db = new DBRegister(this);
                 Card card = db.getCard(bundle.getString("eMAIL"));
 
-                if(card.getPhoto()!= null) {
+                if(card.getPhoto() != null) {
                     File imgFile = new  File(card.getPhoto().toString());
-
                     if(imgFile.exists()){
-                        Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+                        Bitmap myBitmap = decodeFile(imgFile.getAbsolutePath());
                         register_photo.setImageBitmap(myBitmap);
                     }
                 }
@@ -184,6 +181,8 @@ public class RegisterActivity extends AppCompatActivity {
                         photo = getRealPathFromURI(getApplicationContext(), imageReturnedIntent.getData());
                     } catch (IOException e) {
                         e.printStackTrace();
+                    } catch (OutOfMemoryError outOfMemoryError) {
+                        outOfMemoryError.printStackTrace();
                     }
                 }
                 break;
@@ -195,8 +194,6 @@ public class RegisterActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         if (LOGIN){
             getMenuInflater().inflate(R.menu.menu_editing, menu);
-        } else {
-            getMenuInflater().inflate(R.menu.menu_launcher, menu);
         }
         return true;
     }

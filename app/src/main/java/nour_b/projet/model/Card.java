@@ -1,10 +1,10 @@
 package nour_b.projet.model;
 
 import android.content.Context;
-
 import java.io.Serializable;
-
 import nour_b.projet.R;
+
+import static nour_b.projet.utils.DataCardHandler.splitStringToCard;
 
 public class Card implements Serializable {
 
@@ -97,6 +97,18 @@ public class Card implements Serializable {
         this.photo = photo;
     }
 
+    public static Card getCardObject(String c) {
+        String [] data = splitStringToCard(c);
+        Card card = new Card();
+        card.setName(data[0]);
+        card.setSurname(data[1]);
+        card.setMail(data[2]);
+        card.setAddress(data[3]);
+        card.setTel1(data[4]);
+        card.setTel2(data[5]);
+        card.setWebsite(data[6]);
+        return card;
+    }
 
     public String toString(Context ctxt) {
         String userInfo = "BusinessCard \n";
