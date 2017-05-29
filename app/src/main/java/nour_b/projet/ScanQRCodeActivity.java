@@ -23,10 +23,10 @@ public class ScanQRCodeActivity extends AppCompatActivity implements ZXingScanne
     public void onCreate(Bundle state) {
         super.onCreate(state);
 
-        mScannerView = new ZXingScannerView(this); // Programmatically initialize the scanner view
+        mScannerView = new ZXingScannerView(this);
 
         if(!getIntent().getExtras().getBoolean("generate")){
-            setContentView(mScannerView);      // Set the scanner view as the content view
+            setContentView(mScannerView);
 
         } else if (getIntent().getSerializableExtra("Card") != null) {
             setContentView(R.layout.activity_qr_code);
@@ -45,14 +45,14 @@ public class ScanQRCodeActivity extends AppCompatActivity implements ZXingScanne
     @Override
     public void onResume() {
         super.onResume();
-        mScannerView.setResultHandler(this); // Register ourselves as a handler for scan results.
-        mScannerView.startCamera();          // Start camera on resume
+        mScannerView.setResultHandler(this);
+        mScannerView.startCamera();
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        mScannerView.stopCamera();           // Stop camera on pause
+        mScannerView.stopCamera();
     }
 
     @Override

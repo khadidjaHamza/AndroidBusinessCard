@@ -1,17 +1,10 @@
 package nour_b.projet;
 
 import android.content.ActivityNotFoundException;
-import android.content.ContentResolver;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.ContactsContract;
-import android.provider.Telephony;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -25,7 +18,7 @@ import java.io.Serializable;
 
 import nour_b.projet.localDatabase.DBRegister;
 import nour_b.projet.model.Card;
-import nour_b.projet.utils.SMSHandler;
+import nour_b.projet.utils.ContactHandler;
 
 import static nour_b.projet.utils.DataCardHandler.setTextViewPersonalCard;
 import static nour_b.projet.utils.ErrorMessages.pbGeolocalisation;
@@ -144,8 +137,8 @@ public class PersonalCardActivity extends AppCompatActivity {
         if (id == R.id.action_sms) {
             sms = true;
             try {
-                startActivityForResult(SMSHandler.getContact(), SMSHandler.PICK_CONTACT_REQUEST);
-                onActivityResult(SMSHandler.PICK_CONTACT_REQUEST,SMSHandler.CONTACT_PICKER , SMSHandler.getContact());;
+                startActivityForResult(ContactHandler.getContact(), ContactHandler.PICK_CONTACT_REQUEST);
+                onActivityResult(ContactHandler.PICK_CONTACT_REQUEST, ContactHandler.CONTACT_PICKER , ContactHandler.getContact());;
             } catch (ActivityNotFoundException ex) {
                ex.printStackTrace();
             }
@@ -155,8 +148,8 @@ public class PersonalCardActivity extends AppCompatActivity {
         if (id == R.id.action_import) {
             sms = false;
             try {
-                startActivityForResult(SMSHandler.getContact(), SMSHandler.PICK_CONTACT_REQUEST);
-                onActivityResult(SMSHandler.PICK_CONTACT_REQUEST,SMSHandler.CONTACT_PICKER , SMSHandler.getContact());
+                startActivityForResult(ContactHandler.getContact(), ContactHandler.PICK_CONTACT_REQUEST);
+                onActivityResult(ContactHandler.PICK_CONTACT_REQUEST, ContactHandler.CONTACT_PICKER , ContactHandler.getContact());
             } catch (ActivityNotFoundException ex) {
                 ex.printStackTrace();
             }
@@ -164,27 +157,6 @@ public class PersonalCardActivity extends AppCompatActivity {
         }
 
         if(id == R.id.action_scan) {
-            /*SMSHandler receiver = new SMSHandler(this);
-            IntentFilter filter = new IntentFilter(Telephony.Sms.Intents.SMS_RECEIVED_ACTION);
-            registerReceiver(receiver, filter);
-            Intent i = getIntent();
-            receiver.onReceive(getApplicationContext(),i);
-            try {
-                ApplicationInfo ai = getPackageManager().getApplicationInfo(getPackageName(), PackageManager.GET_META_DATA);
-                Bundle bundle = ai.metaData;
-
-                if (bundle != null) {
-                    int from = bundle.getInt("From");
-                    expectedSource = from + "";
-                    Log.i("SMS expected"," from " + from);
-                    i.putExtra("sms_body", card.toString(getApplicationContext()));
-                   // mFromTv.setText("SMS expected from " + from);
-                } else {
-                    Log.d("MainActivity", "Bundle null for " + getPackageName());
-                }
-            } catch (PackageManager.NameNotFoundException ex) {
-                Log.e("MainActivity", ex.toString());
-            }*/
             try {
                 Intent intent = new Intent(PersonalCardActivity.this, ScanQRCodeActivity.class);
                 intent.putExtra("generate",false);
@@ -216,15 +188,15 @@ public class PersonalCardActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
-                case SMSHandler.CONTACT_PICKER :
+                case ContactHandler.CONTACT_PICKER :
                     if(sms){
-                        String tel = SMSHandler.contactPicked(getApplicationContext(),data).getTel1();
+                        String tel = ContactHandler.contactPicked(getApplicationContext(),data).getTel1();
                         Intent smsIntent = new Intent(Intent.ACTION_SENDTO, Uri.parse("smsto:" + tel));
                         smsIntent.putExtra("sms_body", card.toString(getApplicationContext()));
                         startActivity(smsIntent);
                         break;
                     } else {
-                        Card card = SMSHandler.contactPicked(getApplicationContext(), data);
+                        Card card = ContactHandler.contactPicked(getApplicationContext(), data);
                         name.setText(card.getName());
                         surname.setText(card.getSurname());
                         mail.setText(card.getMail());
