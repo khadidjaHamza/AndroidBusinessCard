@@ -3,11 +3,15 @@ package nour_b.projet;
 import android.content.ActivityNotFoundException;
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.provider.Telephony;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -46,6 +50,9 @@ public class PersonalCardActivity extends AppCompatActivity {
     DBRegister db;
 
     boolean sms = true;
+    private TextView mBodyTv;
+    private String expectedSource = "5556"; // default source
+    private String expectedPrefix = "HangMan:";
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -157,6 +164,27 @@ public class PersonalCardActivity extends AppCompatActivity {
         }
 
         if(id == R.id.action_scan) {
+            /*SMSHandler receiver = new SMSHandler(this);
+            IntentFilter filter = new IntentFilter(Telephony.Sms.Intents.SMS_RECEIVED_ACTION);
+            registerReceiver(receiver, filter);
+            Intent i = getIntent();
+            receiver.onReceive(getApplicationContext(),i);
+            try {
+                ApplicationInfo ai = getPackageManager().getApplicationInfo(getPackageName(), PackageManager.GET_META_DATA);
+                Bundle bundle = ai.metaData;
+
+                if (bundle != null) {
+                    int from = bundle.getInt("From");
+                    expectedSource = from + "";
+                    Log.i("SMS expected"," from " + from);
+                    i.putExtra("sms_body", card.toString(getApplicationContext()));
+                   // mFromTv.setText("SMS expected from " + from);
+                } else {
+                    Log.d("MainActivity", "Bundle null for " + getPackageName());
+                }
+            } catch (PackageManager.NameNotFoundException ex) {
+                Log.e("MainActivity", ex.toString());
+            }*/
             try {
                 Intent intent = new Intent(PersonalCardActivity.this, ScanQRCodeActivity.class);
                 intent.putExtra("generate",false);
@@ -196,8 +224,6 @@ public class PersonalCardActivity extends AppCompatActivity {
                         startActivity(smsIntent);
                         break;
                     } else {
-                        ContentResolver cr = getContentResolver();
-                        Uri uri = data.getData();
                         Card card = SMSHandler.contactPicked(getApplicationContext(), data);
                         name.setText(card.getName());
                         surname.setText(card.getSurname());
@@ -212,5 +238,21 @@ public class PersonalCardActivity extends AppCompatActivity {
         } else {
             Log.e("MainActivity", "Failed to pick contact");
         }
+    }
+
+  public   String getExpectedPrefix() {
+      Log.i("expectedPref",""+expectedPrefix);
+        return expectedPrefix;
+    }
+
+   public boolean accept(String from) {
+        return from != null && from.endsWith(expectedSource);
+    }
+    public void sms(String from, String body) {
+        Log.d("MainActivity", "from " + from + " body " + body);
+        if (accept(from))
+            mBodyTv.setText(body);
+        else
+            Log.e("MainActivity", "expected " + expectedSource + " received from " + from);
     }
 }

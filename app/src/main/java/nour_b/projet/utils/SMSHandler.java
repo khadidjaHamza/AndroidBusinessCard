@@ -1,24 +1,28 @@
 package nour_b.projet.utils;
 
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.ContactsContract;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.provider.Telephony;
+import android.telephony.SmsMessage;
 import android.util.Log;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
-
+import nour_b.projet.PersonalCardActivity;
 import nour_b.projet.model.Card;
 
-public class SMSHandler {
+public class SMSHandler extends BroadcastReceiver {
 
     public final static int CONTACT_PICKER = -1;
     public final static int PICK_CONTACT_REQUEST = -1;
-
+    private PersonalCardActivity per;
+    public SMSHandler(PersonalCardActivity per) {
+        this.per = per;
+    }
     public static Intent getContact() {
         Intent contactIntent = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
         return contactIntent;
@@ -30,13 +34,12 @@ public class SMSHandler {
         try {
             Uri uri = data.getData();
             cursor =  ctxt.getContentResolver().query(uri, null, null, null, null);
-            if(cursor.moveToNext()){
-                cursor.moveToNext();
+            while(cursor.moveToNext()){
 
                 String id = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.NAME_RAW_CONTACT_ID));
                 String name = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
                 card.setName(name);
-
+                Log.i("le nom","==>"+name);
                 String surname = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.PHONETIC_NAME));
                 card.setSurname(surname);
                 cursor.close();
@@ -47,8 +50,10 @@ public class SMSHandler {
                 String telephones[] = new String[3];
                 int i = 0;
                 while (phone_cursor.moveToNext()) {
-                    String phone = phone_cursor.getString(phone_cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-                    String test = phone_cursor.getString(phone_cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.RAW_CONTACT_ID));
+                    String phone = phone_cursor.getString(phone_cursor.getColumnIndex(ContactsContract.
+                            CommonDataKinds.Phone.NUMBER));
+                    String test = phone_cursor.getString(phone_cursor.getColumnIndex(ContactsContract.
+                            CommonDataKinds.Phone.RAW_CONTACT_ID));
                     if( test.equals(id)) {
                         telephones[i] = phone;
                         i++;
@@ -58,21 +63,25 @@ public class SMSHandler {
                 card.setTel2(telephones[1]);
                 phone_cursor.close();
 
-                Cursor email_cursor =  ctxt.getContentResolver().query( ContactsContract.CommonDataKinds.Email.CONTENT_URI, null,
+                Cursor email_cursor =  ctxt.getContentResolver().query( ContactsContract.CommonDataKinds.Email.
+                                CONTENT_URI, null,
                         ContactsContract.CommonDataKinds.Email.CONTACT_ID + " = ?",
                         new String[] { id }, null);
                 if(email_cursor.moveToNext()) {
-                    String email = email_cursor.getString(email_cursor.getColumnIndex(ContactsContract.CommonDataKinds.Email.ADDRESS));
+                    String email = email_cursor.getString(email_cursor.getColumnIndex(ContactsContract.CommonDataKinds.Email.
+                            ADDRESS));
                     card.setMail(email);
                 }
                 email_cursor.close();
 
-                Cursor address_cursor =  ctxt.getContentResolver().query(ContactsContract.CommonDataKinds.StructuredPostal.CONTENT_URI, null,
+                Cursor address_cursor =  ctxt.getContentResolver().query(ContactsContract.CommonDataKinds.StructuredPostal.
+                                CONTENT_URI, null,
                         ContactsContract.CommonDataKinds.StructuredPostal.CONTACT_ID + " = ?",
                         new String[] { id }, null);
 
                 if(address_cursor.moveToNext()) {
-                    String adr = address_cursor.getString(address_cursor.getColumnIndex(ContactsContract.CommonDataKinds.StructuredPostal.STREET));
+                    String adr = address_cursor.getString(address_cursor.getColumnIndex(ContactsContract.CommonDataKinds.
+                            StructuredPostal.STREET));
                     card.setAddress(adr);
                 }
                 address_cursor.close();
@@ -81,10 +90,12 @@ public class SMSHandler {
                 String filter = ContactsContract.Data.CONTACT_ID+" = ? " + " and " + ContactsContract.Data.MIMETYPE
                         + " = '" + ContactsContract.CommonDataKinds.Website.CONTENT_ITEM_TYPE + "'";
                 String[] params = { String.valueOf(id) };
-                Cursor website_cursor =  ctxt.getContentResolver().query(ContactsContract.Data.CONTENT_URI, cols, filter, params, null);
+                Cursor website_cursor =  ctxt.getContentResolver().query(ContactsContract.Data.CONTENT_URI, cols,
+                        filter, params, null);
 
                 if(website_cursor.moveToNext()) {
-                    String val = website_cursor.getString(website_cursor.getColumnIndex(ContactsContract.CommonDataKinds.Website.URL));
+                    String val = website_cursor.getString(website_cursor.getColumnIndex(ContactsContract.CommonDataKinds.
+                            Website.URL));
                     card.setWebsite(val);
                 }
                 website_cursor.close();
@@ -94,5 +105,27 @@ public class SMSHandler {
         }
 
         return card;
+    }
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        assert(intent.getAction().equals(Telephony.Sms.Intents.SMS_RECEIVED_ACTION));
+        Log.i("tel==>","**"+Telephony.Sms.Intents.WAP_PUSH_RECEIVED_ACTION);
+        SmsMessage [] messages = Telephony.Sms.Intents.getMessagesFromIntent(intent);
+Log.i("MyRecv====>",""+messages);
+        for(SmsMessage message : messages) {
+            String body = message.getMessageBody();
+            Log.d("MyReceiver:", body);
+            if (body == null || !body.startsWith(per.getExpectedPrefix())) {
+                Log.d("MyReceiver:", "Not the right prefix => skipped");
+                continue;
+            }
+            String from = message.getOriginatingAddress();
+            if (! per.accept(from)) {
+                Log.d("MyReceiver:", "Not accepted by activity => skipped");
+                continue;
+            }
+            per.sms(from, body);
+        }
+
     }
 }

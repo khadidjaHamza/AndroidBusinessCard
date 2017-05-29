@@ -8,7 +8,7 @@
     <string name="menu_login">Connexion</string>
     <string name="menu_card">Ma carte</string>
     <string name="ssmenu_import">Import</string>
-    <string name="ssmenu_scan">Recevoir</string>
+    <string name="ssmenu_scan">Scan</string>
     <string name="ssmenu_sms">Envoyer</string>
 
 

@@ -4,14 +4,8 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-
 import com.google.zxing.Result;
-
-import android.util.Log;
 import android.widget.ImageView;
-
-import java.io.Serializable;
-
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 import nour_b.projet.model.Card;
 import nour_b.projet.utils.QRCodeHandler;
@@ -42,8 +36,6 @@ public class ScanQRCodeActivity extends AppCompatActivity implements ZXingScanne
                 qr_code = (ImageView) findViewById(R.id.qr_code_generation);
                 qr_code.setImageBitmap(bitMatrix);
                 card = (Card) getIntent().getSerializableExtra("Card");
-                String str = card.toString(getApplicationContext());
-
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
