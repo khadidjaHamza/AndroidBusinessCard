@@ -14,9 +14,11 @@
 
         <ImageView
             android:id="@+id/photo"
-            android:layout_width="200dp"
+            android:layout_width="100dp"
             android:layout_height="100dp"
-            app:srcCompat="@drawable/icone" />
+            app:srcCompat="@drawable/icone"
+            android:layout_gravity="center"
+            android:scaleType="fitXY"/>
 
         <LinearLayout
             android:layout_width="match_parent"

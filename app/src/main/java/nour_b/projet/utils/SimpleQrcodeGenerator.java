@@ -21,7 +21,9 @@ import com.google.zxing.qrcode.QRCodeWriter;
 
 public class SimpleQrcodeGenerator {
 
-    public static Bitmap generateMatrix(String data, int size) throws WriterException {
+    private static int size = 600;
+
+    public static Bitmap generateMatrix(String data) throws WriterException {
 
         QRCodeWriter writer = new QRCodeWriter();
 

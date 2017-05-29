@@ -2,9 +2,11 @@ package nour_b.projet.model;
 
 import android.content.Context;
 
+import java.io.Serializable;
+
 import nour_b.projet.R;
 
-public class Card {
+public class Card implements Serializable {
 
     private String mail;
     private String password;

@@ -12,6 +12,7 @@ import android.app.AlertDialog;
 import android.widget.ImageView;
 
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
+import nour_b.projet.model.Card;
 import nour_b.projet.utils.SimpleQrcodeGenerator;
 
 public class ScanActivity extends AppCompatActivity implements ZXingScannerView.ResultHandler{
@@ -20,32 +21,31 @@ public class ScanActivity extends AppCompatActivity implements ZXingScannerView.
     private int size = 600;
 
     private ImageView qr_code;
-    private PersonalCardActivity card;
+    private Card card;
 
     @Override
     public void onCreate(Bundle state) {
-        Log.i("le debut du scane","");
         super.onCreate(state);
-        mScannerView = new ZXingScannerView(this);// Programmatically initialize the scanner view
+
+        mScannerView = new ZXingScannerView(this); // Programmatically initialize the scanner view
+
         if(!getIntent().getExtras().getBoolean("generate")){
             setContentView(mScannerView);      // Set the scanner view as the content view
-        }else{
-            if ( getIntent().getSerializableExtra("Card") != null){
-                try {
-                    Bitmap bitMatrix = SimpleQrcodeGenerator.generateMatrix(getIntent().getSerializableExtra("Card").toString(),
-                            size);
-                    qr_code = (ImageView) findViewById(R.id.qr_code_generation);
-                    qr_code.setImageBitmap(bitMatrix);
-                    setContentView(qr_code);
-                    Log.i("SimpleQrcodeGenerator ","FIN");
+        } else if (getIntent().getSerializableExtra("Card") != null) {
+            setContentView(R.layout.qr_code);
+            try {
+                Bitmap bitMatrix = SimpleQrcodeGenerator.generateMatrix(getIntent().getSerializableExtra("Card").toString());
+                qr_code = (ImageView) findViewById(R.id.qr_code_generation);
+                qr_code.setImageBitmap(bitMatrix);
+                card = (Card) getIntent().getSerializableExtra("Card");
+                String str = card.toString(getApplicationContext());
+                Log.i("Simple TEST ", str);
+                Log.i("SimpleQrcodeGenerator ","FIN");
 
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
             }
         }
-
-
     }
 
 

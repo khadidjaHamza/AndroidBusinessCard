@@ -31,7 +31,7 @@ import static nour_b.projet.utils.DataCardHandler.setTextViewPersonalCard;
 import static nour_b.projet.utils.ErrorMessages.pbGeolocalisation;
 import static nour_b.projet.utils.GPSHandler.getGeoLocation;
 
-public class PersonalCardActivity extends AppCompatActivity implements Serializable{
+public class PersonalCardActivity extends AppCompatActivity {
 
     Card card;
 
@@ -104,10 +104,9 @@ public class PersonalCardActivity extends AppCompatActivity implements Serializa
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(PersonalCardActivity.this, ScanActivity.class);
-                intent.putExtra("Card", (Serializable)card);
+                intent.putExtra("Card", (Serializable) card);
                 intent.putExtra("generate",true);
                 startActivity(intent);
-
             }
         });
     }
@@ -149,6 +148,7 @@ public class PersonalCardActivity extends AppCompatActivity implements Serializa
         if(id == R.id.action_scan) {
             try {
                 Intent intent = new Intent(PersonalCardActivity.this, ScanActivity.class);
+                intent.putExtra("generate",false);
                 startActivity(intent);
             } catch (android.content.ActivityNotFoundException ex) {
                 ex.printStackTrace();
