@@ -42,12 +42,15 @@ public class SMSHandler {
                     ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,
                     ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?",
                     new String[] { id }, null);
-
+            String telephones[] = new String[3];
+            int i = 0;
             while (phone_cursor.moveToNext()) {
-                String phone = phone_cursor.getString(phone_cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));;
-                card.setTel1(phone);
+                String phone = phone_cursor.getString(phone_cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+                telephones[i] = phone;
+                i++;
             }
-
+            card.setTel1(telephones[0]);
+            card.setTel2(telephones[1]);
             phone_cursor.close();
 
             Cursor email_cursor = cr.query( ContactsContract.CommonDataKinds.Email.CONTENT_URI, null,

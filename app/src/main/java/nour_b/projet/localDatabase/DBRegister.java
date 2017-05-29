@@ -35,7 +35,7 @@ public class DBRegister {
 
     public void storeCard (Card u) {
         open();
-        if (u != null && textValidationMandatory(u.getMail()) && !u.getPassword().equals("") ) {
+        if (u != null  ) {
             ContentValues store = new ContentValues();
             store.put(DatabaseHelper.COL_MAIL, u.getMail());
             store.put(DatabaseHelper.COL_PASSWORD, u.getPassword());

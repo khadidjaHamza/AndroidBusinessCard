@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -16,11 +17,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.zxing.common.BitMatrix;
+
 import java.io.File;
 
 import nour_b.projet.localDatabase.DBRegister;
 import nour_b.projet.model.Card;
 import nour_b.projet.utils.SMSHandler;
+import nour_b.projet.utils.SimpleQrcodeGenerator;
 
 import static nour_b.projet.utils.DataCardHandler.setTextViewPersonalCard;
 import static nour_b.projet.utils.ErrorMessages.pbGeolocalisation;
@@ -99,9 +103,27 @@ public class PersonalCardActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 try {
-                    Intent intent = new Intent(PersonalCardActivity.this, ScanActivity.class);
-                    startActivity(intent);
-                } catch (android.content.ActivityNotFoundException ex) {
+                    final String data = "Coucou";
+                    final String imageFormat = "png";
+                    final String outputFileName = "/storage/sdcard/saved_images";
+                    String root = Environment.getExternalStorageDirectory().toString();
+                    File myDir = new File(root + "/saved_images");
+                    myDir.mkdirs();
+                    File file = new File (myDir, "");
+                    if (file.exists ()) file.delete ();
+                    Log.i("la matrix est ==> ",""+file);
+                    file.createNewFile();
+                    final int size = 400;
+
+                    // encode
+                    final BitMatrix bitMatrix = SimpleQrcodeGenerator.generateMatrix(data, size);
+
+                    // write in a file
+                   SimpleQrcodeGenerator.writeImage(outputFileName, imageFormat, bitMatrix);
+
+                  Log.i("SimpleQrcodeGenerator ","FIN");
+
+                } catch (Exception ex) {
                     ex.printStackTrace();
                 }
             }
@@ -142,7 +164,15 @@ public class PersonalCardActivity extends AppCompatActivity {
             }
             return true;
         }
+        if(id == R.id.action_scan) {
+            try {
+                Intent intent = new Intent(PersonalCardActivity.this, ScanActivity.class);
+                startActivity(intent);
+            } catch (android.content.ActivityNotFoundException ex) {
+                ex.printStackTrace();
+            }
 
+        }
         if (id == R.id.action_settings) {
             Intent intent = new Intent(PersonalCardActivity.this, RegisterActivity.class);
             intent.putExtra("eMAIL", mail.getText().toString());
@@ -182,7 +212,7 @@ public class PersonalCardActivity extends AppCompatActivity {
                         phone1.setText(card.getTel1());
                         phone2.setText(card.getTel2());
                         website.setText(card.getWebsite());
-                        db.storeCard(card);
+                     //   db.storeCard(card);
                         break;
                     }
             }
