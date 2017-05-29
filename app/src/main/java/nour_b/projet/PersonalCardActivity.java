@@ -103,25 +103,12 @@ public class PersonalCardActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 try {
-                    final String data = "Coucou";
-                    final String imageFormat = "png";
-                    final String outputFileName = "/storage/sdcard/saved_images";
-                    String root = Environment.getExternalStorageDirectory().toString();
-                    File myDir = new File(root + "/saved_images");
-                    myDir.mkdirs();
-                    File file = new File (myDir, "");
-                    if (file.exists ()) file.delete ();
-                    Log.i("la matrix est ==> ",""+file);
-                    file.createNewFile();
-                    final int size = 400;
+                    int size = 600;
 
-                    // encode
-                    final BitMatrix bitMatrix = SimpleQrcodeGenerator.generateMatrix(data, size);
+                    Bitmap bitMatrix = SimpleQrcodeGenerator.generateMatrix(card.toString(), size);
+                    qr_code.setImageBitmap(bitMatrix);
 
-                    // write in a file
-                   SimpleQrcodeGenerator.writeImage(outputFileName, imageFormat, bitMatrix);
-
-                  Log.i("SimpleQrcodeGenerator ","FIN");
+                    Log.i("SimpleQrcodeGenerator ","FIN");
 
                 } catch (Exception ex) {
                     ex.printStackTrace();

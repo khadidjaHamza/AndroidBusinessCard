@@ -21,7 +21,7 @@
     <string name="title_register">INSCRIPTION</string>
     <string name="title_editing">MODIFICATION</string>
     <string name="description">Il est vivement conseillé de créer un compte utilisateur si vous souhaitez conserver les données de votre carte.</string>
-    <string name="ss_description">Pour ce faire, pensez à indiquer un mail et un mot de passe avant de la générer ou modifier...</string>
+    <string name="ss_description">Pour ce faire, pensez à indiquer un mail et un mot de passe avant de la générer ou la modifier...</string>
     <string name="button_register">GENERER</string>
     <string name="button_editing">MODIFIER</string>
     <string name="name">Prénom</string>

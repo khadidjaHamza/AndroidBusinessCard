@@ -32,7 +32,9 @@
                 android:textSize="20dp"
                 android:layout_marginRight="5dp"
                 android:inputType="textPersonName"
-                android:text="@string/name" />
+                android:text="@string/name"
+                android:textColor="@color/colorAccent"
+                android:textStyle="bold"/>
 
             <TextView
                 android:id="@+id/surname"
@@ -40,7 +42,9 @@
                 android:layout_height="wrap_content"
                 android:textSize="20dp"
                 android:inputType="textPersonName"
-                android:text="@string/surname" />
+                android:text="@string/surname"
+                android:textColor="@color/colorAccent"
+                android:textStyle="bold" />
 
         </LinearLayout>
 
@@ -69,7 +73,8 @@
             android:layout_weight="1"
             android:ems="10"
             android:inputType="textEmailAddress"
-            android:text="@string/mail" />
+            android:text="@string/mail"
+            android:textColor="@color/colorPrimary"/>
 
         <TextView
             android:id="@+id/site"
@@ -78,7 +83,8 @@
             android:layout_weight="1"
             android:ems="10"
             android:inputType="textPersonName"
-            android:text="@string/site" />
+            android:text="@string/site"
+            android:textColor="@color/colorPrimary"/>
 
         <TextView
             android:id="@+id/address"
@@ -87,7 +93,8 @@
             android:layout_weight="1"
             android:ems="10"
             android:inputType="textPersonName"
-            android:text="@string/address" />
+            android:text="@string/address"
+            android:textColor="@color/colorPrimary"/>
 
         <TextView
             android:id="@+id/phone1"
@@ -96,7 +103,8 @@
             android:layout_weight="1"
             android:ems="10"
             android:inputType="phone"
-            android:text="@string/tel1" />
+            android:text="@string/tel1"
+            android:textColor="@color/colorPrimary"/>
 
         <TextView
             android:id="@+id/phone2"
@@ -105,7 +113,8 @@
             android:layout_weight="1"
             android:ems="10"
             android:inputType="phone"
-            android:text="@string/tel2" />
+            android:text="@string/tel2"
+            android:textColor="@color/colorPrimary"/>
 
     </LinearLayout>
 
