@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -39,6 +40,7 @@ public class PersonalCardActivity extends AppCompatActivity {
     TextView website;
 
     ImageView qr_code;
+    private ImageView nfc;
 
     DBRegister db;
 
@@ -59,6 +61,7 @@ public class PersonalCardActivity extends AppCompatActivity {
         phone1 = (TextView) findViewById(R.id.phone1);
         phone2 = (TextView) findViewById(R.id.phone2);
         website = (TextView) findViewById(R.id.site);
+        nfc = (ImageView) findViewById(R.id.nfc_code);
 
         Bundle bundle = getIntent().getExtras();
         if(bundle.getString("eMAIL") != null) {
@@ -115,6 +118,17 @@ public class PersonalCardActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(PersonalCardActivity.this, ScanQRCodeActivity.class);
+                intent.putExtra("Card", (Serializable) card);
+                intent.putExtra("generate",true);
+                startActivity(intent);
+            }
+        });
+
+        nfc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(PersonalCardActivity.this, TagViewerActivity.class);
+                System.out.println("dans le tag ");
                 intent.putExtra("Card", (Serializable) card);
                 intent.putExtra("generate",true);
                 startActivity(intent);

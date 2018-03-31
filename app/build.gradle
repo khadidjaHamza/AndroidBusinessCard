@@ -43,5 +43,7 @@ dependencies {
     // Android version and what is available.
     compile 'com.journeyapps:zxing-android-integration:2.3.0@aar'
     compile 'me.dm7.barcodescanner:zxing:1.9'
+    compile 'com.google.code.gson:gson:2.8.2'
+    compile "com.google.guava:guava:16+"
     testCompile 'junit:junit:4.12'
 }
